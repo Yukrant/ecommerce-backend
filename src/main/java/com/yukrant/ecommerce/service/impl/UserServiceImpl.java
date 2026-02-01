@@ -5,6 +5,7 @@ import com.yukrant.ecommerce.dto.request.RegisterRequest;
 import com.yukrant.ecommerce.dto.response.UserResponse;
 import com.yukrant.ecommerce.entity.Role;
 import com.yukrant.ecommerce.entity.User;
+import com.yukrant.ecommerce.exception.ResourceAlreadyExistsException;
 import com.yukrant.ecommerce.repository.UserRepository;
 import com.yukrant.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class UserServiceImpl implements UserService {
     public UserResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new ResourceAlreadyExistsException("Email already exists");
+
         }
 
         User user = User.builder()
